@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Book>
+
+
+@if (Model.Count() > 0)
+ {
+
+        <h6 class="display-6">
+            Book Information(@Model.Count())
+        </h6>
+        <table class="table  table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>NAME</th>
+                    <th>AUTHOR</th>
+                    <th>PAGE NUMBER</th>
+                    <th>DUE DATE</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Book book in Model)
+
+                    {
+                        
+                        DateTime bugun = DateTime.Now;
+                        DateTime kitaptarih = book.DueDate;
+                        TimeSpan kalangun = kitaptarih - bugun;
+                        <tr>
+                            <style>
+                                .today {
+                                    background-color: yellow !important;
+                                }
+
+                                .gecti {
+                                    background-color: red !important;
+                                }
+                                .var {
+                                    background-color: green !important;
+                                }
+                            </style>
+
+                            <td>@book.Name</td>
+                            <td>@book.Author</td>
+                            <td>@book.PageNumber</td>
+                            <td class="@(kalangun.Days == 0 ? "today" : kalangun.Days < 0 ? "gecti" :kalangun.Days > 0 ? "var" : "")">@kalangun.Days</td>  
+                        </tr>
+
+
+
+                 }
+            </tbody>
+
+        </table>
+
+
+ }
+ else
+ {
+        <div class="alert alert-info">
+            There is no added book.
+            <a class="alert-link" asp-action="Apply">
+                Add.
+            </a>
+        </div>
+ }
